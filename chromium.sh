@@ -3,34 +3,51 @@ set -e  # Exit script jika ada error
 
 # Function untuk validasi input
 validate_input() {
-  if [[ -z "$1" ]]; then
-    echo "❌ Input tidak boleh kosong!"
-    exit 1
+  local input=$1
+  local field=$2
+  if [[ -z "$input" ]]; then
+    echo "❌ $field tidak boleh kosong!"
+    return 1
   fi
+  return 0
 }
 
 # Function untuk meminta input username
 get_username() {
-  read -r -p "Masukkan username (kosongkan untuk generate otomatis): " username
-  if [[ -z "$username" ]]; then
-    username=$(openssl rand -hex 4)
-    echo "✅ Menggunakan username acak: $username"
-  else
-    validate_input "$username"
-    echo "✅ Menggunakan username: $username"
-  fi
+  local input_username=""
+  while true; do
+    read -r -p "Masukkan username (kosongkan untuk generate otomatis): " input_username
+    if [[ -z "$input_username" ]]; then
+      username=$(openssl rand -hex 4)
+      echo "✅ Menggunakan username acak: $username"
+      break
+    else
+      if validate_input "$input_username" "Username"; then
+        username=$input_username
+        echo "✅ Menggunakan username: $username"
+        break
+      fi
+    fi
+  done
 }
 
 # Function untuk meminta input password
 get_password() {
-  read -r -p "Masukkan password (kosongkan untuk generate otomatis): " password
-  if [[ -z "$password" ]]; then
-    password=$(openssl rand -base64 12 | tr '+/' '!@')
-    echo "✅ Menggunakan password acak: $password"
-  else
-    validate_input "$password"
-    echo "✅ Menggunakan password yang dimasukkan"
-  fi
+  local input_password=""
+  while true; do
+    read -r -p "Masukkan password (kosongkan untuk generate otomatis): " input_password
+    if [[ -z "$input_password" ]]; then
+      password=$(openssl rand -base64 12 | tr '+/' '!@')
+      echo "✅ Menggunakan password acak: $password"
+      break
+    else
+      if validate_input "$input_password" "Password"; then
+        password=$input_password
+        echo "✅ Menggunakan password yang dimasukkan"
+        break
+      fi
+    fi
+  done
 }
 
 # Cek root access
