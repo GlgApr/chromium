@@ -44,6 +44,12 @@ nano /opt/chromium-browser/docker-compose.yml
   ```bash
   docker compose up -d
   ```
-
+## DANGER ZONE
+**DELETING CHROMIUM**
+```bash
+docker stop chromium
+docker rm chromium
+docker rmi lscr.io/linuxserver/chromium:latest
+```
 ## Kontribusi
 Pull request dipersilakan! 😊
