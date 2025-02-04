@@ -30,5 +30,20 @@ sudo ./chromium.sh
 - Konfigurasi timezone otomatis
 - Bisa custom username dan password
 
+## CHANGE USER/PASSWORD
+```bash
+docker stop chromium
+nano /opt/chromium-browser/docker-compose.yml
+```
+- Ubah bagian
+  environment:
+    - CUSTOM_USER=your_new_user
+    - PASSWORD=your_new_password
+- CTRL+X, Y, Click Enter.
+- Running
+  ```bash
+  docker compose up -d
+  ```
+
 ## Kontribusi
 Pull request dipersilakan! 😊
