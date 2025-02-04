@@ -9,15 +9,15 @@ Script ini digunakan untuk menginstall Chromium di VPS menggunakan Docker.
 
 ## Cara Penggunaan
 
-**The FAST WAY**
+**The FAST WAY (RANDOM USER/PASSWORD)**
 
 ```bash
-curl -s https://raw.githubusercontent.com/GlgApr/chromium/main/chromium.sh | bash
+curl -s https://raw.githubusercontent.com/GlgApr/chromium/main/chromium.sh | sudo bash -s
 ```
 
-**The SAFE WAY**
+**The SAFE WAY (CUSTOM USER/PASS)**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/GlgApr/chromium/main/chromium.sh -o chromium.sh
+curl -O https://raw.githubusercontent.com/GlgApr/chromium/main/chromium.sh
 chmod +x chromium.sh
 sudo ./chromium.sh
 ```
