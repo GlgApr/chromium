@@ -42,6 +42,7 @@ nano /opt/chromium-browser/docker-compose.yml
 - CTRL+X, Y, Click Enter.
 - Running
   ```bash
+  cd /opt/chromium-browser/
   docker compose up -d
   ```
 ## DANGER ZONE
