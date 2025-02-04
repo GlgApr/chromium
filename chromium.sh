@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e  # Exit script jika ada error
 
+# Deklarasi variabel global
+username=""
+password=""
+
 # Function untuk validasi input
 validate_input() {
   local input=$1
@@ -14,16 +18,15 @@ validate_input() {
 
 # Function untuk meminta input username
 get_username() {
-  local input_username=""
   while true; do
     read -r -p "Masukkan username (kosongkan untuk generate otomatis): " input_username
     if [[ -z "$input_username" ]]; then
-      username=$(openssl rand -hex 4)
+      export username=$(openssl rand -hex 4)
       echo "✅ Menggunakan username acak: $username"
       break
     else
       if validate_input "$input_username" "Username"; then
-        username=$input_username
+        export username=$input_username
         echo "✅ Menggunakan username: $username"
         break
       fi
@@ -33,16 +36,15 @@ get_username() {
 
 # Function untuk meminta input password
 get_password() {
-  local input_password=""
   while true; do
     read -r -p "Masukkan password (kosongkan untuk generate otomatis): " input_password
     if [[ -z "$input_password" ]]; then
-      password=$(openssl rand -base64 12 | tr '+/' '!@')
+      export password=$(openssl rand -base64 12 | tr '+/' '!@')
       echo "✅ Menggunakan password acak: $password"
       break
     else
       if validate_input "$input_password" "Password"; then
-        password=$input_password
+        export password=$input_password
         echo "✅ Menggunakan password yang dimasukkan"
         break
       fi
