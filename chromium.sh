@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e  # Exit script jika ada error
 
+# Fungsi untuk mengecek apakah script dijalankan langsung atau melalui pipe
+if [ -t 0 ]; then
+  INTERACTIVE=1
+else
+  INTERACTIVE=0
+fi
+
 # Deklarasi variabel global
 username=""
 password=""
@@ -18,15 +25,22 @@ validate_input() {
 
 # Function untuk meminta input username
 get_username() {
+  if [ $INTERACTIVE -eq 0 ]; then
+    # Jika non-interaktif, generate username otomatis
+    username=$(openssl rand -hex 4)
+    echo "✅ Menggunakan username acak: $username"
+    return
+  fi
+
   while true; do
     read -r -p "Masukkan username (kosongkan untuk generate otomatis): " input_username
     if [[ -z "$input_username" ]]; then
-      export username=$(openssl rand -hex 4)
+      username=$(openssl rand -hex 4)
       echo "✅ Menggunakan username acak: $username"
       break
     else
       if validate_input "$input_username" "Username"; then
-        export username=$input_username
+        username=$input_username
         echo "✅ Menggunakan username: $username"
         break
       fi
@@ -36,15 +50,22 @@ get_username() {
 
 # Function untuk meminta input password
 get_password() {
+  if [ $INTERACTIVE -eq 0 ]; then
+    # Jika non-interaktif, generate password otomatis
+    password=$(openssl rand -base64 12 | tr '+/' '!@')
+    echo "✅ Menggunakan password acak: $password"
+    return
+  fi
+
   while true; do
     read -r -p "Masukkan password (kosongkan untuk generate otomatis): " input_password
     if [[ -z "$input_password" ]]; then
-      export password=$(openssl rand -base64 12 | tr '+/' '!@')
+      password=$(openssl rand -base64 12 | tr '+/' '!@')
       echo "✅ Menggunakan password acak: $password"
       break
     else
       if validate_input "$input_password" "Password"; then
-        export password=$input_password
+        password=$input_password
         echo "✅ Menggunakan password yang dimasukkan"
         break
       fi
