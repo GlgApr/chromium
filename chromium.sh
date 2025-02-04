@@ -11,7 +11,8 @@ validate_input() {
 
 # Function untuk meminta input username
 get_username() {
-  read -p "Masukkan username (kosongkan untuk generate otomatis): " username
+  echo -n "Masukkan username (kosongkan untuk generate otomatis): "
+  read -r username 
   if [[ -z "$username" ]]; then
     username=$(openssl rand -hex 4)
     echo "✅ Menggunakan username acak: $username"
@@ -23,7 +24,7 @@ get_username() {
 
 # Function untuk meminta input password
 get_password() {
-  read -p "Masukkan password (kosongkan untuk generate otomatis): " password
+  read -r "Masukkan password (kosongkan untuk generate otomatis): " password
   if [[ -z "$password" ]]; then
     password=$(openssl rand -base64 12 | tr '+/' '!@')
     echo "✅ Menggunakan password acak: $password"
@@ -75,8 +76,8 @@ else
 fi
 
 # Port checking
-check_port() {
-  netstat -tuln | grep -q ":$1 "
+test_port() {
+  ss -tuln | grep -q ":$1 "
   return $?
 }
 
